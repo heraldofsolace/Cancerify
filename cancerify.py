@@ -12,6 +12,7 @@ parser.add_argument('-f',action='store',dest='filename',help='File name',default
 parser.add_argument('-c', action = 'store_true',dest='use_letters',help = 'Use letters',default = False)
 parser.add_argument('-l',action = 'store_true', dest='use_lenny', help='use lenny faces', default=False)
 parser.add_argument('-p',action = 'store', dest = 'p', type=int, help = 'Max number of lennies', default = 20)
+parser.add_argument('-b',action = 'store_true', dest = 'use_b', help = 'Replace "b" with B emoji', default=False)
 args = parser.parse_args()
 #huge list of emojis (add more if you want from here https://www.webpagefx.com/tools/emoji-cheat-sheet/)
 #note: not all emojis are supported
@@ -41,6 +42,9 @@ while True:
     if not c:
         #EOF
         break
+    if c in ['B','b'] and args.use_b:
+        print(emoji.emojize(':b:',use_aliases=True),end='')
+        continue
     #Don't bother about those who are not alphabets
     if random.randint(1,4) == 1 and args.use_letters and c.isalpha():
         #Choose a list randomly and map the letter to proper index
