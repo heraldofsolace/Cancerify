@@ -13,7 +13,8 @@ parser.add_argument('-c', action = 'store_true',dest='use_letters',help = 'Use l
 parser.add_argument('-l',action = 'store_true', dest='use_lenny', help='use lenny faces', default=False)
 parser.add_argument('-p',action = 'store', dest = 'p', type=int, help = 'Max number of lennies', default = 20)
 parser.add_argument('-b',action = 'store_true', dest = 'use_b', help = 'Replace "b" with B emoji', default=False)
-parser.add_argument('-x',action = 'store_true', dest = 'x',default = False)
+parser.add_argument('-x',action = 'store_true', dest = 'x',default = False,help = 'Prettify')
+parser.add_argument('-o',action = 'store_true',dest = 'oof', default = False, help = 'Oofify')
 args = parser.parse_args()
 #huge list of emojis (add more if you want from here https://www.webpagefx.com/tools/emoji-cheat-sheet/)
 #note: not all emojis are supported
@@ -49,20 +50,23 @@ if not args.x:
             print(emoji.emojize(':b:',use_aliases=True),end='')
             continue
         #Don't bother about those who are not alphabets
-        if random.randint(1,4) == 1 and args.use_letters and c.isalpha():
+        if random.randint(1,5) == 1 and args.use_letters and c.isalpha():
             #Choose a list randomly and map the letter to proper index
             print(letter_list[random.randint(0,1)][ord(c) - (65 if c.isupper() else 97)],end='') 
             continue
         #Randomly convert to uppercase and print
-        print(c.upper() if random.randint(1,4)==2 and c.isalpha() else c,end='')
+        print(c.upper() if random.randint(1,5)==2 and c.isalpha() else c,end='')
         #Replace the spaces randomly with random number of emoji
-        if random.randint(1,4) ==3 and c==' ' and args.use_emoji:
+        if random.randint(1,5) ==3 and c==' ' and args.use_emoji:
             for i in range(random.randint(1,args.r)):
                 print(emoji.emojize(emoji_list[random.randint(0,len(emoji_list)-1)],use_aliases=True),end=' ')
         #Replace the spaces randomly with random number of lennies
-        if random.randint(1,4) == 4 and c == ' ' and args.use_lenny:
+        if random.randint(1,5) == 4 and c == ' ' and args.use_lenny:
             for i in range(random.randint(1,args.p)):
                 print(lenny_list[random.randint(0,len(lenny_list)-1)],end=' ')
+        #Replace the spaces randomly with oof
+        if random.randint(1,5) == 5 and c == ' ' and args.oof:
+            print(' oof ',end=' ')
 
 else:
     #Prettify
