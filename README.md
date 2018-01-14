@@ -1,6 +1,8 @@
 # Cancerify
 World's some of the most famous torture options, collected in one script. Pass an innocent text into this script, and get back the most cringiest text to look at.
 
+Requires the 'emoji' package
+
 # Starring
 1. Random uppercase
 2. Emojify
