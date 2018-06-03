@@ -2,8 +2,12 @@ import sys
 import random
 import emoji
 import argparse
+import requests
+import re
+import bidict
 
-
+app_key = 'caa9fa1fe35c4d61eda91becb49a14fc'
+app_id = '8db71754'
 parser = argparse.ArgumentParser()
 parser.add_argument('-e',action='store_true',dest='use_emoji',help='Use emojis',default=False)
 parser.add_argument('--emojify',action='store_true',dest='use_emoji',help='Use emojis',default=False)
@@ -15,6 +19,8 @@ parser.add_argument('-p',action = 'store', dest = 'p', type=int, help = 'Max num
 parser.add_argument('-b',action = 'store_true', dest = 'use_b', help = 'Replace "b" with B emoji', default=False)
 parser.add_argument('-x',action = 'store_true', dest = 'x',default = False,help = 'Prettify')
 parser.add_argument('-o',action = 'store_true',dest = 'oof', default = False, help = 'Oofify')
+parser.add_argument('-t',action = 'store_true',dest = 'nt', default = False, help = 'Antonymn\'t-ify')
+parser.add_argument('-T',action = 'store',dest = 'ntfile', default = "", help = 'Antonymn\'t-ify files')
 args = parser.parse_args()
 #huge list of emojis (add more if you want from here https://www.webpagefx.com/tools/emoji-cheat-sheet/)
 #note: not all emojis are supported
@@ -22,6 +28,12 @@ emoji_list = [':rage:',':laughing:',':blush:',':relieved:',':sweat:',':weary:','
         ':fist:',':point_down:',':pray:',':person_with_blond_hair:',':smiley_cat:',':droplet:',':pig:',':elephant:',
         ':woman:',':hear_no_evil:',':eyes:',':unamused:',':sunglasses:',':star2:',':punch:',':raised_hands:',':joy_cat:',
         ':person_frowning:',':skull:',':lips:',':fire:',':ok_hand:']
+antonym_list = bidict.bidict()
+if args.ntfile:
+    with open(args.ntfile) as f:
+        l = f.read().strip().split(',')
+        for i in l:
+            antonym_list[i.split(':')[0]] = i.split(':')[-1]
 
 #List of Lenny faces
 lenny_list = ['( \u0361\u00b0 \u035c\u0296 \u0361\u00b0 )', '(\u2310\u25a0_\u25a0)','\u1633\u2a36\u1a0e\u2a36\u1630','(\u00f2\u1d25\u00f3)','( \u0360\u00b0 \u035c\u0296 \u00b0)','( \u0361\u239a \u035c\u0296 \u0361\u239a)','\u00af\_\u30c4_/\u00af','\u0ca0_\u0ca0','\u291c(\u0298_\u0298)\u290f','(\u3065\u25d4 \u035c\u0296\u25d4)\u3065']
@@ -33,19 +45,32 @@ unicode_greek_coptic  =['\u03B1', '\u03B2', '\u03DA', 'd', '\u03B5', '\u03DC', '
 #List of the list of letters
 letter_list = [unicode_cyrillic_capital, unicode_greek_coptic]
 
+new_text = ''
 if not args.x:
     #Paste the text into a file
     #Pass the filename as argument
     if args.filename=='none':
         f = sys.stdin
+        print('Cancerify will read from stdin. Press Ctrl+D to stop')
     else:
         f=open(args.filename)
-    while True:
-        #read one character
-        c=f.read(1)
-        if not c:
-            #EOF
-            break
+    t = f.read().lower()
+    unique_words = set(t.split())
+    for word in unique_words:
+        r = requests.get('https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{}/antonyms'.format(word),headers = {'app_id':app_id, 'app_key':app_key})
+        antonym  = ''
+   
+        if r.status_code == 200:
+            r = r.json()
+            antonym = r['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['antonyms'][-1]['text']
+            
+        if word in antonym_list.keys():
+            antonym = antonym_list[word]
+        if word in antonym_list.inv.keys():
+            antonym = antonym_list.inv[word]
+        if antonym != '':
+            t = re.sub(r'\b{}\b'.format(word), '{}n\'t'.format(antonym), t)
+    for c in t:
         if c in ['B','b'] and args.use_b:
             print(emoji.emojize(':b:',use_aliases=True),end='')
             continue
