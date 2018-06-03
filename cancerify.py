@@ -55,14 +55,22 @@ if not args.x:
     else:
         f=open(args.filename)
     t = f.read().lower()
-    unique_words = set(t.split())
+    # Delimiters. Feel free to add more.
+    unique_words = set(re.split(r' |\t|\n|\r|\r\n|\,|\.|\;|\-|\+', t))
+    count = 0
     for word in unique_words:
-        r = requests.get('https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{}/antonyms'.format(word),headers = {'app_id':app_id, 'app_key':app_key})
-        antonym  = ''
-   
-        if r.status_code == 200:
-            r = r.json()
-            antonym = r['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['antonyms'][-1]['text']
+        # 60/min hit limit
+        print(word)
+        if count < 60:
+            r = requests.get('https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{}/antonyms'.format(word),headers = {'app_id':app_id, 'app_key':app_key})
+            antonym  = ''
+    
+            if r.status_code == 200:
+                r = r.json()
+                try:
+                    antonym = r['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['antonyms'][-1]['text']
+                except KeyError:
+                    pass
             
         if word in antonym_list.keys():
             antonym = antonym_list[word]
