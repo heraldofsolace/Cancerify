@@ -58,26 +58,27 @@ if not args.x:
     # Delimiters. Feel free to add more.
     unique_words = set(re.split(r' |\t|\n|\r|\r\n|\,|\.|\;|\-|\+', t))
     count = 0
-    for word in unique_words:
-        # 60/min hit limit
-        print(word)
-        if count < 60:
-            r = requests.get('https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{}/antonyms'.format(word),headers = {'app_id':app_id, 'app_key':app_key})
-            antonym  = ''
-    
-            if r.status_code == 200:
-                r = r.json()
-                try:
-                    antonym = r['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['antonyms'][-1]['text']
-                except KeyError:
-                    pass
-            
-        if word in antonym_list.keys():
-            antonym = antonym_list[word]
-        if word in antonym_list.inv.keys():
-            antonym = antonym_list.inv[word]
-        if antonym != '':
-            t = re.sub(r'\b{}\b'.format(word), '{}n\'t'.format(antonym), t)
+    if args.nt:
+        for word in unique_words:
+            # 60/min hit limit
+            print(word)
+            if count < 60:
+                r = requests.get('https://od-api.oxforddictionaries.com:443/api/v1/entries/en/{}/antonyms'.format(word),headers = {'app_id':app_id, 'app_key':app_key})
+                antonym  = ''
+
+                if r.status_code == 200:
+                    r = r.json()
+                    try:
+                        antonym = r['results'][0]['lexicalEntries'][0]['entries'][0]['senses'][0]['antonyms'][-1]['text']
+                    except KeyError:
+                        pass
+
+            if word in antonym_list.keys():
+                antonym = antonym_list[word]
+            if word in antonym_list.inv.keys():
+                antonym = antonym_list.inv[word]
+            if antonym != '':
+                t = re.sub(r'\b{}\b'.format(word), '{}n\'t'.format(antonym), t)
     for c in t:
         if c in ['B','b'] and args.use_b:
             print(emoji.emojize(':b:',use_aliases=True),end='')
@@ -85,7 +86,7 @@ if not args.x:
         #Don't bother about those who are not alphabets
         if random.randint(1,5) == 1 and args.use_letters and c.isalpha():
             #Choose a list randomly and map the letter to proper index
-            print(letter_list[random.randint(0,1)][ord(c) - (65 if c.isupper() else 97)],end='') 
+            print(letter_list[random.randint(0,1)][ord(c) - (65 if c.isupper() else 97)],end='')
             continue
         #Randomly convert to uppercase and print
         print(c.upper() if random.randint(1,5)==2 and c.isalpha() else c,end='')
@@ -108,7 +109,7 @@ else:
     if args.filename=='none':
         print("Enter the text. Press Ctrl+C to stop")
         f = sys.stdin
-        
+
     else:
         f=open(args.filename)
     text = [i for i in f.read()]
@@ -121,7 +122,7 @@ else:
         for lists in letter_list:
             if text[i] in lists:
                 text[i] = chr(lists.index(text[i]) + 65)
-        
+
     for lenny in lenny_list:
         temp_lenny = [c for c in lenny]
         i = 0
@@ -130,7 +131,7 @@ else:
                 del text[i:i+len(temp_lenny)]
             else:
                 i += 1
-    
+
     if text[0].isalpha():
         text[0] = text[0].upper()
     punc_list = ['.','?','!']
@@ -150,16 +151,16 @@ else:
             else:
                 if text[i - 1] in punc_list:
                     text.insert(i,' ')
-                
+
                 else:
                     text[i] = text[i].lower()
-            
+
         elif text[i].isdigit():
             continue
         else:
             if i < len(text) - 1 and (ord(text[i]) not in [39,32,34]):
                 text.insert(i+1,' ')
-    
+
     i = 0
 
     while i < len(text)-1:
@@ -172,7 +173,7 @@ else:
             text[i+2] = text[i+2].upper()
     if text[-1] == '\n':
            del text[-1]
-    
+
     print("".join(text))
-            
-        
+
+
