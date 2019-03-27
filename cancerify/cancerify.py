@@ -59,7 +59,7 @@ class Cancerifier:
 
         new_text = ''
         if not args.x:
-           
+
             t = args.f.lower()
             # Delimiters. Feel free to add more.
             unique_words = set(re.split(r' |\t|\n|\r|\r\n|\,|\.|\;|\-|\+', t))
@@ -111,7 +111,7 @@ class Cancerifier:
             #Prettify
             #Just assume that the following lines work, with a few bugs.
             #It will make life easier.
-           
+
             text = [i for i in args.f]
             for i in range(len(text)):
                 if text[i] in emoji.UNICODE_EMOJI:
@@ -175,31 +175,4 @@ class Cancerifier:
                 del text[-1]
 
             return "".join(text)
-
-if __name__ == "__main__":
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-e',action='store_true',dest='use_emoji',help='Use emojis',default=False)
-    parser.add_argument('--emojify',action='store_true',dest='use_emoji',help='Use emojis',default=False)
-    parser.add_argument('-n',action='store',dest='r',type=int,help='max number of emojis',default=20)
-    parser.add_argument('-f',action='store',dest='filename',help='File name',default='none')
-    parser.add_argument('-c', action = 'store_true',dest='use_letters',help = 'Use letters',default = False)
-    parser.add_argument('-l',action = 'store_true', dest='use_lenny', help='use lenny faces', default=False)
-    parser.add_argument('-p',action = 'store', dest = 'p', type=int, help = 'Max number of lennies', default = 20)
-    parser.add_argument('-b',action = 'store_true', dest = 'use_b', help = 'Replace "b" with B emoji', default=False)
-    parser.add_argument('-x',action = 'store_true', dest = 'x',default = False,help = 'Prettify')
-    parser.add_argument('-o',action = 'store_true',dest = 'oof', default = False, help = 'Oofify')
-    parser.add_argument('-t',action = 'store_true',dest = 'nt', default = False, help = 'Antonymn\'t-ify')
-    parser.add_argument('-T',action = 'store',dest = 'ntfile', default = "", help = 'Antonymn\'t-ify files')
-    args = parser.parse_args()
-
-    f = None
-    if args.filename != "none":
-        f = open(args.filename)
-    else:
-        print("Cancerify will read from stdin. Press ctrl-D to stop")
-        f = sys.stdin
-    args.f = f.read().lower()
-    r = Cancerifier.cancerify(args)
-    print(r)
 

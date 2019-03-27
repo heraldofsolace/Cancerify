@@ -1,0 +1,4 @@
+dist/*
+tags
+build/*
+cancerify.egg-info/*
