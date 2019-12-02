@@ -67,9 +67,9 @@ Next, instantiate a CancerifierArgument from a dictionary. The dictionary can ha
 11. antonym_file: Path to antonym file
 
 ```
-args = cancerify.CancerifierArgument({'use_emoji': True, 'max_emoji': 40, 'prettify': True, 'content': 's  faf safa   gfagag'})
+args = CancerifierArgument({'use_emoji': True, 'max_emoji': 40, 'prettify': True, 'content': 's  faf safa   gfagag'})
 # Pass this args to an instance of Cancerifier
-cancerify.Cancerifier.cancerify(args)
+Cancerifier.cancerify(args)
 ```
 
 # Usage notes:
