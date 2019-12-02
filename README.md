@@ -17,12 +17,13 @@ Requires the 'emoji' package and the 'bidict' package.
 pip install cancerify
 ```
 
+Make sure the pip binary installation directory is in your PATH
 # Usage:
 Cancerify can be used in two ways: either as a command line script or from another Python script
 
 ## Using from command line
 ```
-python cancerify.py -f filename -c -l -b -e -n 30 -t -T antonym_file
+cancerify -f filename -c -l -b -e -n 30 -t -T antonym_file
 ```
 
 -f the filename from where to read the text, leave empty for reading from stdin
@@ -48,7 +49,7 @@ If no file is specified, Cancerify will read from stdin. Press Ctrl-D to stop.
 First you have to import Cancerifier and CancerifierArgument
 
 ```
-from cancerify import *
+from cancerify.cancerify import *
 ```
 
 Next, instantiate a CancerifierArgument from a dictionary. The dictionary can have these arguments:
