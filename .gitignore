@@ -2,3 +2,4 @@ dist/*
 tags
 build/*
 cancerify.egg-info/*
+cancerify/__pycache__/*
