@@ -17,6 +17,11 @@ if __name__ == "__main__":
     parser.add_argument('-o',action = 'store_true',dest = 'oof', default = False, help = 'Oofify')
     parser.add_argument('-t',action = 'store_true',dest = 'nt', default = False, help = 'Antonymn\'t-ify')
     parser.add_argument('-T',action = 'store',dest = 'ntfile', default = "", help = 'Antonymn\'t-ify files')
+    parser.add_argument('-z',action = 'store_true',dest = 'zalgofy', default = False, help = 'Zalgofy')
+    parser.add_argument('--zintup',action = 'store',dest = 'zintup', type=int, default = 5, help = 'Zalgo intenisty up')
+    parser.add_argument('--zintmid',action = 'store',dest = 'zintmid', type=int, default = 5, help = 'Zalgo intensity mid')
+    parser.add_argument('--zintdown',action = 'store',dest = 'zintdown', type=int, default = 5, help = 'Zalgo intensity down')
+    parser.add_argument('--zintrand',action = 'store',dest = 'zintrand', default = True, help = 'Use random intensity')
     args = parser.parse_args()
 
     f = None

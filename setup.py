@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cancerify",
-    version="0.0.5",
+    version="1.0.0",
     author="Aniket Bhattacharyea",
     author_email="i_abh_esc_wq@protonmail.com",
     description="Turn an innocent text into torturous hell",

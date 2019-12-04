@@ -10,6 +10,7 @@ Requires the 'emoji' package and the 'bidict' package.
 4. Cancerous fonts
 5. B-ify
 6. n't-ify
+7. Zalgofy (might not work in your terminal, or on all browsers)
 
 # Installation
 
@@ -22,26 +23,30 @@ Make sure the pip binary installation directory is in your PATH
 Cancerify can be used in two ways: either as a command line script or from another Python script
 
 ## Using from command line
+
 ```
-cancerify -f filename -c -l -b -e -n 30 -t -T antonym_file
+usage: cancerify [-h] [-e] [--emojify] [-n R] [-f FILENAME] [-c] [-l] [-p P] [-b] [-x] [-o] [-t] [-T NTFILE] [-z] [--zintup ZINTUP] [--zintmid ZINTMID] [--zintdown ZINTDOWN] [--zintrand ZINTRAND]
+
+optional arguments:
+  -h, --help           show this help message and exit
+  -e                   Use emojis
+  --emojify            Use emojis
+  -n R                 max number of emojis
+  -f FILENAME          File name
+  -c                   Use letters
+  -l                   use lenny faces
+  -p P                 Max number of lennies
+  -b                   Replace "b" with B emoji
+  -x                   Prettify
+  -o                   Oofify
+  -t                   Antonymn't-ify
+  -T NTFILE            Antonymn't-ify files
+  -z                   Zalgofy
+  --zintup ZINTUP      Zalgo intenisty up
+  --zintmid ZINTMID    Zalgo intensity mid
+  --zintdown ZINTDOWN  Zalgo intensity down
+  --zintrand ZINTRAND  Use random intensity
 ```
-
--f the filename from where to read the text, leave empty for reading from stdin
-
--l lennify, randomly insert lenny faces
-
--b b-fy, replace 'b' or 'B' with B emoji
-
--e emojify, insert randomly random number of emojis
-
--n max number of consecutive emojis
-
--c use cancerous fonts (currently greek and coptik)
-
--t Use n't-ify 
-
--T Antonym file
-
 If no file is specified, Cancerify will read from stdin. Press Ctrl-D to stop.
 
 ## Using from another file:
@@ -65,6 +70,11 @@ Next, instantiate a CancerifierArgument from a dictionary. The dictionary can ha
 9.  oof-ify: True or False,
 10. antonym: True or False,
 11. antonym_file: Path to antonym file
+12. zalgofy: Zalgofy - True or False
+13. zintup: Intensity of zalgo texts going up
+14. zintmid: Intensity of zalgo texts over characters
+15. zintdown: Intensity of zalgo texts going down
+16. zintrand: If True, for each position, a random number of zalgo texts less than the corresponding intensity will be used, else exactly that many texts will be used.
 
 ```
 args = CancerifierArgument({'use_emoji': True, 'max_emoji': 40, 'prettify': True, 'content': 's  faf safa   gfagag'})
