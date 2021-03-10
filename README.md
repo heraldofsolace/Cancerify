@@ -129,3 +129,5 @@ Reverse the effect of cancerify. Pass the -x option and it will -
 7. Replace the 'B' emojis with 'b'
 
 Have fun!!
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J53WCCI)
